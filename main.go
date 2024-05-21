@@ -1,4 +1,4 @@
-package dowYou_Bot
+package main
 
 import (
 	"example.com/mod/config"

@@ -39,10 +39,10 @@ func New(token string, repo Repository) (*Service, error) {
 }
 
 func (s *Service) Run() error {
-	ctx := context.TODO()
+	ctx := context.Background()
 
 	s.bot.RegisterHandler(bot.HandlerTypeMessageText, "/start", bot.MatchTypeExact, s.handlerStart)
-	s.bot.RegisterHandler(bot.HandlerTypeMessageText, "📈 Завантажити відео", bot.MatchTypeExact, s.handlerAskLinkYTVideo)
+	s.bot.RegisterHandler(bot.HandlerTypeMessageText, "/ask_link", bot.MatchTypeExact, s.handlerAskLinkYTVideo)
 	s.bot.RegisterHandler(bot.HandlerTypeCallbackQueryData, "download_video:", bot.MatchTypePrefix, s.handlerUploadYTVideo)
 	s.bot.RegisterHandlerMatchFunc(s.matchState(domain.StateWaitingVideo), s.handlerDownloadYTVideo)
 

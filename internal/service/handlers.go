@@ -27,16 +27,16 @@ func (s *Service) matchState(state domain.State) bot.MatchFunc {
 func (s *Service) handlerStart(ctx context.Context, b *bot.Bot, update *models.Update) {
 	_, err := b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID: update.Message.Chat.ID,
-		Text:   "Для взаемодії з ботом використовуйте кнопки нижче:",
+		Text:   "Use buttons for downloads video",
 		ReplyMarkup: models.ReplyKeyboardMarkup{
 			ResizeKeyboard: true,
 			Keyboard: [][]models.KeyboardButton{
 				{
-					{Text: "📈 Завантажити відео"},
+					{Text: "📈 Download video"},
 				},
 				{
-					{Text: "📚 Курси"},
-					{Text: "📊 Прогнози"},
+					{Text: "📚 Course"},
+					{Text: "📊 Somthing else"},
 				},
 			},
 		},
@@ -49,7 +49,7 @@ func (s *Service) handlerStart(ctx context.Context, b *bot.Bot, update *models.U
 func (s *Service) handlerAskLinkYTVideo(ctx context.Context, b *bot.Bot, update *models.Update) {
 	_, err := b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID: update.Message.Chat.ID,
-		Text:   "Вставте посилання на відео з YouTube:",
+		Text:   "Add link from YouTube:",
 	})
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -63,14 +63,14 @@ func (s *Service) handlerDownloadYTVideo(ctx context.Context, b *bot.Bot, update
 	if err != nil {
 		_, _ = b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID: update.Message.Chat.ID,
-			Text:   "Помилка в посиланні",
+			Text:   "Not valid URL",
 		})
 		return
 	}
 
 	msg, err := b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID: update.Message.Chat.ID,
-		Text:   "Готуемо відео....",
+		Text:   "Wait....",
 	})
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -81,7 +81,7 @@ func (s *Service) handlerDownloadYTVideo(ctx context.Context, b *bot.Bot, update
 	if err != nil {
 		_, _ = b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID: update.Message.Chat.ID,
-			Text:   "Помилка в отриманні відео",
+			Text:   "Error video download",
 		})
 		return
 	}
@@ -89,11 +89,11 @@ func (s *Service) handlerDownloadYTVideo(ctx context.Context, b *bot.Bot, update
 	_, err = b.EditMessageText(ctx, &bot.EditMessageTextParams{
 		ChatID:    msg.Chat.ID,
 		MessageID: msg.ID,
-		Text:      fmt.Sprintf("Відео %s готове до завантаження", video.Title),
+		Text:      fmt.Sprintf("Video %s ready for dowload", video.Title),
 		ReplyMarkup: models.InlineKeyboardMarkup{
 			InlineKeyboard: [][]models.InlineKeyboardButton{
 				{
-					{Text: "Завантажити", CallbackData: "download_video:" + parsedURL.String()},
+					{Text: "Dowload", CallbackData: "download_video:" + parsedURL.String()},
 				},
 			},
 		},
@@ -106,7 +106,7 @@ func (s *Service) handlerUploadYTVideo(ctx context.Context, b *bot.Bot, update *
 	if err != nil {
 		_, _ = b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID: update.CallbackQuery.Message.Message.Chat.ID,
-			Text:   "Помилка в отриманні відео",
+			Text:   "Error video download",
 		})
 		return
 	}
@@ -114,7 +114,7 @@ func (s *Service) handlerUploadYTVideo(ctx context.Context, b *bot.Bot, update *
 	if len(formats) == 0 {
 		_, _ = b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID: update.CallbackQuery.Message.Message.Chat.ID,
-			Text:   "Помилка у відео",
+			Text:   "Error video",
 		})
 		return
 	}
@@ -123,7 +123,7 @@ func (s *Service) handlerUploadYTVideo(ctx context.Context, b *bot.Bot, update *
 	if err != nil {
 		_, _ = b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID: update.CallbackQuery.Message.Message.Chat.ID,
-			Text:   "Помилка у завантаженні відео",
+			Text:   "Error video download",
 		})
 		return
 	}
@@ -131,7 +131,7 @@ func (s *Service) handlerUploadYTVideo(ctx context.Context, b *bot.Bot, update *
 	go func() {
 		_, err := b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID: update.CallbackQuery.Message.Message.Chat.ID,
-			Text:   "Починаємо завантаження відео",
+			Text:   "Start video download",
 		})
 		if err != nil {
 			fmt.Println("Error:", err)
@@ -158,7 +158,7 @@ func (s *Service) handlerUploadYTVideo(ctx context.Context, b *bot.Bot, update *
 
 		_, _ = b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID: update.CallbackQuery.Message.Message.Chat.ID,
-			Text:   "Відео успішно завантажено",
+			Text:   "Video successfully downloaded!",
 		})
 
 	}()
