@@ -81,7 +81,7 @@ func (s *Service) handlerDownloadYTVideo(ctx context.Context, b *bot.Bot, update
 	if err != nil {
 		_, _ = b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID: update.Message.Chat.ID,
-			Text:   "Error video download",
+			Text:   "Error video  download",
 		})
 		return
 	}
