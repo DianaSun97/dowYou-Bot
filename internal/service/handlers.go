@@ -32,7 +32,7 @@ func (s *Service) handlerStart(ctx context.Context, b *bot.Bot, update *models.U
 			ResizeKeyboard: true,
 			Keyboard: [][]models.KeyboardButton{
 				{
-					{Text: "📈 Download video"},
+					{Text: "Download video"},
 				},
 				{
 					{Text: "📚 Course"},
@@ -93,7 +93,7 @@ func (s *Service) handlerDownloadYTVideo(ctx context.Context, b *bot.Bot, update
 		ReplyMarkup: models.InlineKeyboardMarkup{
 			InlineKeyboard: [][]models.InlineKeyboardButton{
 				{
-					{Text: "Dowload", CallbackData: "download_video:" + parsedURL.String()},
+					{Text: "Download", CallbackData: "download_video:" + parsedURL.String()},
 				},
 			},
 		},

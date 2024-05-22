@@ -43,6 +43,7 @@ func (s *Service) Run() error {
 
 	s.bot.RegisterHandler(bot.HandlerTypeMessageText, "/start", bot.MatchTypeExact, s.handlerStart)
 	s.bot.RegisterHandler(bot.HandlerTypeMessageText, "/ask_link", bot.MatchTypeExact, s.handlerAskLinkYTVideo)
+	s.bot.RegisterHandler(bot.HandlerTypeMessageText, "Download video", bot.MatchTypeExact, s.handlerAskLinkYTVideo)
 	s.bot.RegisterHandler(bot.HandlerTypeCallbackQueryData, "download_video:", bot.MatchTypePrefix, s.handlerUploadYTVideo)
 	s.bot.RegisterHandlerMatchFunc(s.matchState(domain.StateWaitingVideo), s.handlerDownloadYTVideo)
 
